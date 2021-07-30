@@ -1,0 +1,130 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+	<script src="{% static 'bootstrap/js/bootstrap.js' %}" ></script>
+	<title>IOT | Water Management System</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">
+	      <img src="{% static 'img/logo.jpeg' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+	      {{isi}} {{user}}
+	    </a>
+	  </div>
+	  <div class="container-fluid">
+	    <a class="navbar-brand " href="#">Menu | {{judul}}</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/">Home Dashboard</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="/energySaver">Penghematan Listrik</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver/waterPredict">Prediksi Konsumsi Air</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver/tankLevel">Level Tandon Air</a>
+	        </li>
+	        <li class="nav-item">
+	        	<form method="post">
+					{% csrf_token %}
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					 	<button class="btn btn-danger btn-lg" type="submit" name="logout" value="logoutYes"> Logout</button>
+					</div>
+				</form>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<div class="container">
+	  <div class="row g-2">
+	    <div class="col-15">
+	      <div class="p-3 mt-5 border bg-info text-center">Informasi</div>
+	    </div>
+	  </div>
+	  <div class="row g-2">
+	  	 <div class="col-15">
+	      <div class="p-3 border bg-light">Halaman ini memberikan data informasi penggunaan listrik PLN untuk pompa air. Menampilkan jumlah penghematan daya listrik rumahan dan penggunaan minimalis dari listrik PLN untuk pompa air tadon sistem ini.</div>
+	    </div>
+	  </div>
+	</div>
+
+	<h2 class="text-center mt-5">Penghematan Listrik Pompa Air Hari ini</h2>
+
+	<div class="container mt-5" >
+		<div class="row g-2">
+
+			{% if endDataMain == 0 and endDataPnl == 0 %}
+
+				<div class="col-15">
+			      <div class="p-3 mt-5 border bg-success text-center rounded-3" style="color:#fff"> 
+			      	<h2>Belum Ada History</h2>
+			      	<h4>Data penggunaan listrik sel surya atau PLN hari ini belum ada</h4>
+			      </div>
+			    </div>
+				
+			{% else %}
+				
+			    <div class="col-6">
+			      <div class="p-3 mt-5 border bg-success text-center rounded-3" style="color:#fff"> 
+			      	<h2>Penghematan</h2>
+			      	<h4>{{endDataPnl}} Wh</h4>
+			      </div>
+			    </div>
+			    <div class="col-6">
+			      <div class="p-3 mt-5 border bg-warning text-center rounded-3">
+			      	<h2>Pemakaian PLN</h2>
+			      	<h4>{{endDataMain}} Wh</h4>
+			      </div>
+			    </div>
+
+		    {% endif %}
+
+		  </div>
+		</div>
+	</div>
+
+	<h2 class="text-center mt-5">Penghematan Listrik Pompa Air Tiap Harinya</h2>
+
+	<div class="container mt-5" >
+		<div class="row g-2">
+		    <div class="col-15">
+		      	<table class="table">
+				  <thead class="table-dark">
+				    <td>Tanggal</td>
+				    <td>Waktu</td>
+				    <td>Listrik Utama (Wh)</td>
+				    <td>Penghematan (Wh)</td>
+				    <td></td>
+				  </thead>
+				  <tbody>
+					{% for data in fromDb %}
+						<tr>
+							<td>{{data.day}}</td>
+							<td>{{data.time}}</td>
+							<td>{{data.powerMain}}</td>
+							<td>{{data.powerSun}}</td>
+						</tr>
+					{% endfor %}
+				  </tbody>
+				</table>
+
+		    </div>
+		  </div>
+	</div>
+
+</body>
+</html>

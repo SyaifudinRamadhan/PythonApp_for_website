@@ -1,0 +1,123 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IOT | Water Management System</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">
+	      <img src="{% static 'img/logo.jpeg' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+	      {{isi}} {{user}}
+	    </a>
+	  </div>
+	  <div class="container-fluid">
+	    <a class="navbar-brand " href="#">Menu | {{judul}}</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="/">Home Dashboard</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver">Penghematan Listrik</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver/waterPredict">Prediksi Konsumsi Air</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver/tankLevel">Level Tandon Air</a>
+	        </li>
+	        <li class="nav-item">
+	        	<form method="post">
+					{% csrf_token %}
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					 	<button class="btn btn-danger btn-lg" type="submit" name="logout" value="logoutYes"> Logout</button>
+					</div>
+				</form>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-4 mb-5">
+				<div class="card text-center bg-primary text-light">
+					<div class="card-body">
+						<h5 class="card-title">Pengunaan air hari ini</h5>
+						<p class="card-text">20 Liter</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 mb-5">
+				<div class="card text-center bg-info text-light">
+					<div class="card-body">
+						<h5 class="card-title">Pengunaan listrik hari ini</h5>
+						<p class="card-text">75 VA</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 mb-5">
+				<div class="card text-center bg-warning text-light">
+					<div class="card-body">
+						<h5 class="card-title">Penghematan listrik dengan kemarin</h5>
+						<p class="card-text">12 VA</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-6">
+				<h3 class="mb-3">Penggunaan Air Perbulan</h3>
+				<div id="water_charts"></div>
+			</div>
+			<div class="col-6">
+				<h3 class="mb-3">Penggunaan Listrik Perbulan</h3>
+				<div id="electricity_charts"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="{% static 'bootstrap/js/bootstrap.js' %}" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+	<script type="text/javascript">
+		var optionsWaterCharts = {
+		  	chart: {
+		    	type: 'line'
+		  	},
+		  	series: [{
+				name: 'Penggunaan Air Perbulan',
+				data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 50, 100, 150]
+			}],
+			xaxis: {
+				categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+			}
+		}
+
+		var optionsElectricityCharts = {
+		  	chart: {
+		    	type: 'line'
+		  	},
+		  	series: [{
+				name: 'Penggunaan Air Perbulan',
+				data: [50, 10, 25, 70, 139, 20, 70, 91, 175, 120, 100, 150]
+			}],
+			xaxis: {
+				categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+			}
+		}
+
+		var waterChart = new ApexCharts(document.querySelector("#water_charts"), optionsWaterCharts);
+		var electricityChart = new ApexCharts(document.querySelector("#electricity_charts"), optionsElectricityCharts);
+
+		waterChart.render();
+		electricityChart.render();
+	</script>
+</body>
+</html>

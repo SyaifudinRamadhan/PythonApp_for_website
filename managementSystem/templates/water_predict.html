@@ -1,0 +1,134 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+	<script src="{% static 'bootstrap/js/bootstrap.js' %}" ></script>
+	<title>IOT | Water Management System</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">
+	      <img src="{% static 'img/logo.jpeg' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+	      {{isi}} {{user}}
+	    </a>
+	  </div>
+	  <div class="container-fluid">
+	    <a class="navbar-brand " href="#">Menu | {{judul}}</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/">Home Dashboard</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver">Penghematan Listrik</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="/energySaver/waterPredict">Prediksi Konsumsi Air</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver/tankLevel">Level Tandon Air</a>
+	        </li>
+	        <li class="nav-item">
+	        	<form method="post">
+					{% csrf_token %}
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					 	<button class="btn btn-danger btn-lg" type="submit" name="logout" value="logoutYes"> Logout</button>
+					</div>
+				</form>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+
+	<div class="container">
+	  <div class="row g-2">
+	    <div class="col-15">
+	      <div class="p-3 mt-5 border bg-info text-center rounded-top">Informasi</div>
+	    </div>
+	  </div>
+	  <div class="row g-2">
+	  	 <div class="col-15">
+	      <div class="p-3 border bg-light rounded-bottom">Halaman ini memberikan data informasi penggunaan air tandon. Berisikan history debit air keluar dari tandon beserta memberikan informasi pengisian otomatis tandon air pada malam hari dengan listrik PLN untuk penghematan listrik. Yang dielngkapi dengan prediksi kebutuhan pengguna. Dan tersinkronkan dengan sistem tandon air.</div>
+	    </div>
+	  </div>
+	</div>
+
+	<h2 class="text-center mt-5"> Informasi Pengisian Tandon Air Otomatis Hari ini</h2>
+
+	<div class="container mt-5" >
+		<div class="row g-2">
+		    <div class="col-15">
+		     {% if regresiLen == 0 or realCount == 0 %}
+		     	
+			     <div class="p-3 mt-5 border bg-success text-center rounded-3" style="color:#fff"> 
+			      	<h2>Belum Ada Prediksi Pengisian Otomatis</h2>
+			      	<h4>Data history debit air tiga hari terakhir atau rumus prediksi belum tersedia</h4>
+			      </div>
+
+			 {% else %}
+
+			 	 <div class="p-3 mt-5 border bg-success text-center rounded-3" style="color:#fff"> 
+			      	<h2>Pengisian Tandon Air Dengan Listrik PLN</h2>
+			      	<h4>Pada tanggal {{ endData.date }} pukul {{ endData.time_d }} dengan ketinggian air berkurang menjadi {{ endData.volume_d }} dan arus yang telah kaluar {{ endData.current }} liter/detik</h4>
+			      	<h3>Konfirmasi sistem : {{ confirm }}</h3>
+			      </div>
+
+		     {% endif %}
+		    </div>
+		</div>
+	</div>
+
+	<h2 class="text-center mt-5">Data History Penggunaan Air Tandon Tiap Harinya</h2>
+
+	<div class="container mt-5" >
+		<div class="row g-2">
+		    <div class="col-15">
+		      	<table class="table">
+				  <thead class="table-dark">
+				    <td>Tanggal</td>
+				    <td>Waktu</td>
+				    <td>Level Air (CM)</td>
+				    <td>Arus Keluar (Liter/detik)</td>
+				    <td></td>
+				  </thead>
+				  <tbody>
+					{% if realCount > 0 %}
+
+						{% for data in dataHistory %}
+							<tr>
+								<td>{{data.date}}</td>
+								<td>{{data.time_d}}</td>
+								<td>{{data.volume_d}}</td>
+								<td>{{data.current}}</td>
+							</tr>
+						{% endfor %}
+
+					{% else %}
+
+						<tr>
+							<td></td>
+							<td></td>
+							<td><h4>Data history terakhir belum tersedia</h4></td>
+							<td></td>
+						</tr>
+						
+					{% endif %}
+				  </tbody>
+				</table>
+
+		    </div>
+		  </div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+	<script src="{% static 'bootstrap/js/bootstrap.js' %}" ></script>
+	<title>IOT | Water Management System</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="#">
+	      <img src="{% static 'img/logo.jpeg' %}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+	      {{isi}} {{user}}
+	    </a>
+	  </div>
+	  <div class="container-fluid">
+	    <a class="navbar-brand " href="#">Menu | {{judul}}</a>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/">Home Dashboard</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver">Penghematan Listrik</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link " aria-current="page" href="/energySaver/waterPredict">Prediksi Konsumsi Air</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link active" aria-current="page" href="/energySaver/tankLevel">Level Tandon Air</a>
+	        </li>
+	        <li class="nav-item">
+	        	<form method="post">
+					{% csrf_token %}
+					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					 	<button class="btn btn-danger btn-lg" type="submit" name="logout" value="logoutYes"> Logout</button>
+					</div>
+				</form>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<div class="container mt-3">
+		<div class="row">
+			<div class="col-12">
+				<h2>Tank Level</h2>
+			</div>
+			<div class="col-12 mt-2">
+				<button class="btn btn-primary">Export PDF</button>
+				<table class="table table-bordered mt-3">
+					<tr>
+						<td>Total Pengeluaran Air</td>
+						<td>30 Liter</td>
+					</tr>
+					<tr>
+						<td>Status</td>
+						<td>Hemat 3 Liter dari kemarin</td>
+					</tr>
+				</table>
+				<table class="table mt-3">
+					<thead class="table-dark">
+					  <tr>
+						<th scope="col">#</th>
+						<th scope="col">Tanggal</th>
+						<th scope="col">Isi Tangki</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr>
+						<th scope="row">1</th>
+						<td>2021-07-21 15:08:00</td>
+						<td>20 Liter</td>
+					  </tr>
+					  <tr>
+						<th scope="row">2</th>
+						<td>2021-07-21 20:08:00</td>
+						<td>5 Liter</td>
+					  </tr>
+					  <tr>
+						<th scope="row">3</th>
+						<td>2021-07-21 01:08:00</td>
+						<td>15 Liter</td>
+					  </tr>
+					  <tr>
+						<th scope="row">4</th>
+						<td>2021-07-21 01:08:00</td>
+						<td>15 Liter</td>
+					  </tr>
+					  <tr>
+						<th scope="row">5</th>
+						<td>2021-07-21 01:08:00</td>
+						<td>15 Liter</td>
+					  </tr>
+					  <tr>
+						<th scope="row">6</th>
+						<td>2021-07-21 01:08:00</td>
+						<td>15 Liter</td>
+					  </tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-12 mt-3">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-end">
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#">4</a></li>
+						<li class="page-item"><a class="page-link" href="#">5</a></li>
+						<li class="page-item">
+							<a class="page-link" href="#" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
